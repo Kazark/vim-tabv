@@ -6,3 +6,7 @@ function vs($file1, $file2) {
     vim -O2 $file1 $file2
 }
 
+function Tabv($name) {
+    vs inc/$1.hpp src/$1.cpp
+}
+
