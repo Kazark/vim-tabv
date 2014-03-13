@@ -14,10 +14,22 @@ let g:tabv_cplusplus_include_extension=".hpp"
 let g:tabv_cplusplus_unittest_directory="unittest"
 let g:tabv_cplusplus_unittest_extension="Tests.cpp"
 
+function s:TabEdit(directory, name, extension)
+    execute "tabe " . a:directory . "/" . a:name . a:extension
+endfunction
+
+function s:VerticalSplit(directory, name, extension)
+    execute "vs " . a:directory . "/" . a:name . a:extension
+endfunction
+
+function s:HorizontalSplit(directory, name, extension)
+    execute "sp " . a:directory . "/" . a:name . a:extension
+endfunction
+
 function s:OpenTabCPlusPlus(name)
-    execute "tabe " . g:tabv_cplusplus_source_directory . "/" . a:name . g:tabv_cplusplus_source_extension
-    execute "vs " . g:tabv_cplusplus_include_directory . "/" . a:name . g:tabv_cplusplus_include_extension
-    execute "sp " . g:tabv_cplusplus_unittest_directory . "/" . a:name . g:tabv_cplusplus_unittest_extension
+    call s:TabEdit(g:tabv_cplusplus_source_directory, a:name, g:tabv_cplusplus_source_extension)
+    call s:VerticalSplit(g:tabv_cplusplus_include_directory, a:name, g:tabv_cplusplus_include_extension)
+    call s:HorizontalSplit(g:tabv_cplusplus_unittest_directory, a:name, g:tabv_cplusplus_unittest_extension)
 endfunction
 
 let g:tabv_javascript_source_directory="src"
@@ -26,8 +38,8 @@ let g:tabv_javascript_unittest_directory="unittests"
 let g:tabv_javascript_unittest_extension=".spec.js"
 
 function s:OpenTabJavaScript(name)
-    execute "tabe " . g:tabv_javascript_source_directory . "/" . a:name . g:tabv_javascript_source_extension
-    execute "vs " . g:tabv_javascript_unittest_directory . "/" . a:name . g:tabv_javascript_unittest_extension
+    call s:TabEdit(g:tabv_javascript_source_directory, a:name, g:tabv_javascript_source_extension)
+    call s:VerticalSplit(g:tabv_javascript_unittest_directory, a:name, g:tabv_javascript_unittest_extension)
 endfunction
 
 command -nargs=1 -complete=file Tabv tabe src/<args>.cpp | vs inc/<args>.hpp | sp unittest/<args>Tests.cpp
