@@ -37,11 +37,12 @@ let s:GENERIC_REGEX = "<>$"
 
 function s:OpenTabCPlusPlus(name)
     let l:name = substitute(a:name, s:GENERIC_REGEX, "", "")
-    call s:TabEdit(g:tabv_cplusplus_source_directory, l:name, g:tabv_cplusplus_source_extension)
     if match(a:name, s:GENERIC_REGEX) == -1
+        call s:TabEdit(g:tabv_cplusplus_source_directory, l:name, g:tabv_cplusplus_source_extension)
         call s:VerticalSplit(g:tabv_cplusplus_include_directory, l:name, g:tabv_cplusplus_include_extension)
         call s:HorizontalSplit(g:tabv_cplusplus_unittest_directory, l:name, g:tabv_cplusplus_unittest_extension)
     else
+        call s:TabEdit(g:tabv_cplusplus_include_directory, l:name, g:tabv_cplusplus_include_extension)
         call s:VerticalSplit(g:tabv_cplusplus_unittest_directory, l:name, g:tabv_cplusplus_unittest_extension)
     endif
 endfunction
