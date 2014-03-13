@@ -30,10 +30,20 @@ function s:HorizontalSplit(directory, name, extension)
     execute "split " . a:directory . "/" . a:name . a:extension
 endfunction
 
+" This is for the OpenTabCPlusPlus function, which will not open a source file
+" if a name is suffixed with <>, i.e. Tabcxxv List<> will only open, say,
+" inc/List.hpp and unittest/ListTests.cpp, vertically split
+let s:GENERIC_REGEX = "<>$"
+
 function s:OpenTabCPlusPlus(name)
-    call s:TabEdit(g:tabv_cplusplus_source_directory, a:name, g:tabv_cplusplus_source_extension)
-    call s:VerticalSplit(g:tabv_cplusplus_include_directory, a:name, g:tabv_cplusplus_include_extension)
-    call s:HorizontalSplit(g:tabv_cplusplus_unittest_directory, a:name, g:tabv_cplusplus_unittest_extension)
+    let l:name = substitute(a:name, s:GENERIC_REGEX, "", "")
+    call s:TabEdit(g:tabv_cplusplus_source_directory, l:name, g:tabv_cplusplus_source_extension)
+    if match(a:name, s:GENERIC_REGEX) == -1
+        call s:VerticalSplit(g:tabv_cplusplus_include_directory, l:name, g:tabv_cplusplus_include_extension)
+        call s:HorizontalSplit(g:tabv_cplusplus_unittest_directory, l:name, g:tabv_cplusplus_unittest_extension)
+    else
+        call s:VerticalSplit(g:tabv_cplusplus_unittest_directory, l:name, g:tabv_cplusplus_unittest_extension)
+    endif
 endfunction
 
 let g:tabv_javascript_source_directory="src"
