@@ -15,15 +15,19 @@ let g:tabv_cplusplus_unittest_directory="unittest"
 let g:tabv_cplusplus_unittest_extension="Tests.cpp"
 
 function s:TabEdit(directory, name, extension)
-    execute "tabe " . a:directory . "/" . a:name . a:extension
+    let l:editcmd = "tabedit "
+    if line('$') == 1 && getline(1) == '' && expand('%') == ''
+        let l:editcmd = "edit "
+    endif
+    execute l:editcmd . a:directory . "/" . a:name . a:extension
 endfunction
 
 function s:VerticalSplit(directory, name, extension)
-    execute "vs " . a:directory . "/" . a:name . a:extension
+    execute "vsplit " . a:directory . "/" . a:name . a:extension
 endfunction
 
 function s:HorizontalSplit(directory, name, extension)
-    execute "sp " . a:directory . "/" . a:name . a:extension
+    execute "split " . a:directory . "/" . a:name . a:extension
 endfunction
 
 function s:OpenTabCPlusPlus(name)
