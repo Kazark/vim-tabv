@@ -12,17 +12,17 @@ variables.
 
 Example uses:
 
-    Tabcxxv Channel
+    :Tabcxxv Channel
 
-![Tabcxxv](http://imgur.com/vOyeKyD)
+![Tabcxxv](http://i.imgur.com/vOyeKyD.png)
 
-    Tabcxxv Router<>
+    :Tabcxxv Router<>
 
-![Tabcxxv<>](http://imgur.com/7eR41hi)
+![Tabcxxv<>](http://i.imgur.com/7eR41hi.png)
 
-    Tabjsv tokens
+    :Tabjsv tokens
 
-![Tabjsv](http://imgur.com/sOqu4Nx)
+![Tabjsv](http://i.imgur.com/sOqu4Nx.png)
 
 ### Desired future behavior
 + Make `:Tabv` context-sensitive, i.e. make it guess the language.
