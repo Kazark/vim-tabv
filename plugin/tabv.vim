@@ -16,7 +16,7 @@ let g:tabv_cplusplus_unittest_extension="Tests.cpp"
 
 function s:TabEdit(directory, name, extension)
     let l:editcmd = "tabedit "
-    if line('$') == 1 && getline(1) == '' && expand('%') == ''
+    if line('$') == 1 && getline(1) == '' && expand('%') == '' && len(tabpagebuflist()) == 1
         let l:editcmd = "edit "
     endif
     execute l:editcmd . a:directory . "/" . a:name . a:extension
@@ -57,6 +57,6 @@ function s:OpenTabJavaScript(name)
     call s:VerticalSplit(g:tabv_javascript_unittest_directory, a:name, g:tabv_javascript_unittest_extension)
 endfunction
 
-command -nargs=1 -complete=file Tabv tabe src/<args>.cpp | vs inc/<args>.hpp | sp unittest/<args>Tests.cpp
+command -nargs=1 -complete=file Tabv call <SID>OpenTabCPlusPlus("<args>")
 command -nargs=1 -complete=file Tabcxxv call <SID>OpenTabCPlusPlus("<args>")
 command -nargs=1 -complete=file Tabjsv call <SID>OpenTabJavaScript("<args>")
