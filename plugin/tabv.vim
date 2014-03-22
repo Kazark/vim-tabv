@@ -57,6 +57,21 @@ function s:OpenTabJavaScript(name)
     call s:VerticalSplit(g:tabv_javascript_unittest_directory, a:name, g:tabv_javascript_unittest_extension)
 endfunction
 
-command -nargs=1 -complete=file Tabv call <SID>OpenTabCPlusPlus("<args>")
+function s:OpenTabForGuessedLanguage(name)
+    if &filetype == ""
+        if filereadable('Gruntfile.js') " Assume this is a JavaScript project
+            call s:OpenTabJavaScript(a:name)
+        else
+            call s:OpenTabCPlusPlus(a:name)
+        endif
+    elseif &filetype == "javascript"
+        call s:OpenTabJavaScript(a:name)
+    else
+        call s:OpenTabCPlusPlus(a:name)
+    endif
+endfunction
+
+command -nargs=1 -complete=file Tabv call <SID>OpenTabForGuessedLanguage("<args>")
 command -nargs=1 -complete=file Tabcxxv call <SID>OpenTabCPlusPlus("<args>")
 command -nargs=1 -complete=file Tabjsv call <SID>OpenTabJavaScript("<args>")
+
