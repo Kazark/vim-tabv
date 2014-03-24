@@ -1,9 +1,10 @@
-## Tabv for Vim
+# Tabv for Vim
 
 Easily open relevant groupings of files as a tab in Vim. This plugin is
 currently very simplistic. I am hoping to develop it slowly over time.
 
-### Current behavior
+## Current behavior
+### Open a tab and populate it with related files
 It is designed to be used through the `:Tabv` command, which will guess which of
 the supported commands to use (currently, it will try to guess whether it is
 JavaScript, and if it is not, will fall back on C++).
@@ -29,7 +30,15 @@ Example uses:
 
 ![Tabjsv](http://i.imgur.com/sOqu4Nx.png)
 
-### Desired future behavior
+### Open relevant files for already opened file in same tab
+Will attempt to figure out where the unit tests for the current buffer are and
+open them in a vertically split window:
+
+    :Vsunittests
+
+Note: initial implementation of this is very crappy.
+
+## Desired future behavior
 + Implement for more languages (if you have a language you would like to see
   implemented, let me know; I'm working on features on an as-needed basis)
 + Have functions make more intelligent attempts to find the files you want
