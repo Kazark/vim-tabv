@@ -55,7 +55,5 @@ Note: initial implementation of this is very crappy.
 + Have functions make more intelligent attempts to find the files you want
   - Based on makefile for C++ projects
   - Improved `Gruntfile`-based guessing algorithm
-    + Only guess the paths once per Vim session
-    + Better scraping algorithm
 + Make `:Vsunittests` work for C++ and make it use `Gruntfile`-based guessing
   algorithm
