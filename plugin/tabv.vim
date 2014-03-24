@@ -57,9 +57,27 @@ function s:OpenTabJavaScript(name)
     call s:VerticalSplit(g:tabv_javascript_unittest_directory, a:name, g:tabv_javascript_unittest_extension)
 endfunction
 
+let g:tabv_grunt_file_path='Gruntfile.js'
+
+function s:GuessPathsFromGruntfile()
+    execute "sview " . g:tabv_grunt_file_path
+    global/^\_s*['"].*\*\.spec\.js['"]\_s*[,\]]\_s*/y a
+    let l:matches = matchlist(getreg('a'), '[''"]\(.*\)/\*\.spec\.js[''"]')
+    if len(l:matches) > 1
+        let g:tabv_javascript_unittest_directory = l:matches[1]
+    endif
+    global/^\_s*['"].*\*\.js['"]\_s*[,\]]\_s*/y a
+    let l:matches = matchlist(getreg('a'), '[''"]\(.*\)/\*\.js[''"]')
+    if len(l:matches) > 1
+        let g:tabv_javascript_source_directory = l:matches[1]
+    endif
+    close
+endfunction
+
 function s:OpenTabForGuessedLanguage(name)
     if &filetype == ""
-        if filereadable('Gruntfile.js') " Assume this is a JavaScript project
+        if filereadable(g:tabv_grunt_file_path) " Assume this is a JavaScript project
+            call s:GuessPathsFromGruntfile()
             call s:OpenTabJavaScript(a:name)
         else
             call s:OpenTabCPlusPlus(a:name)
