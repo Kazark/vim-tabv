@@ -1,7 +1,18 @@
 # Tabv for Vim
 
-Easily open relevant groupings of files as a tab in Vim. This plugin is
-currently very simplistic. I am hoping to develop it slowly over time.
+Easily open relevant groupings of files in Vim. This plugin is currently
+simplistic and hacky. I am developing it slowly over time. If you start
+using it please let me know what you need from it by submitting issues.
+And if you by some wild chance you actually find this useful you can always
+[![endorse](https://api.coderwall.com/kazark/endorsecount.png)](https://coderwall.com/kazark)
+me.
+
+I use it along with [The NERD tree](https://github.com/scrooloose/nerdtree) and
+[CtrlP.Vim](https://github.com/kien/ctrlp.vim) in order to easily call up files
+from within a project and make working in Vim more like working in an IDE. Both
+those plugins are far more mature and powerful than this one is, plus the guys
+who wrote them are way better with VimL than I am. I recommend them both above
+this one.
 
 ## Current behavior
 ### Open a tab and populate it with related files
