@@ -59,5 +59,4 @@ open them in a vertically split window:
 + Have functions make more intelligent attempts to find the files you want
   - Based on makefile for C++ projects
   - Improved `Gruntfile`-based guessing algorithm
-+ Make `:Vsunittests` work for C++ and make it use `Gruntfile`-based guessing
-  algorithm
++ Make `:Vsunittests` work for C++
