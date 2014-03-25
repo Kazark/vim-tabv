@@ -7,13 +7,13 @@ function vs($file1, $file2) {
 }
 
 function Tabv($name) {
-    vs inc/$name.hpp src/$name.cpp
+    vim -c "Tabv $name"
 }
 
 function Tabcxxv($name) {
-    vs inc/$name.hpp src/$name.cpp
+    vim -c "Tabcxxv $name"
 }
 
 function Tabjsv($name) {
-    vs unittests/$name.src src/$name.spec.js
+    vim -c "Tabjsv $name"
 }

@@ -1,9 +1,9 @@
 # Tabv for Vim
 
 Easily open relevant groupings of files in Vim. This plugin is currently
-simplistic and hacky. I am developing it slowly over time. If you start
-using it please let me know what you need from it by submitting issues.
-And if you by some wild chance you actually find this useful you can always
+simplistic and hacky. I am developing it slowly over time. If you start using it
+please let me know what you need from it by submitting issues. And if you by
+some wild chance you actually find this useful you can always
 [![endorse](https://api.coderwall.com/kazark/endorsecount.png)](https://coderwall.com/kazark)
 me.
 
@@ -40,6 +40,12 @@ Example uses:
     :Tabjsv tokens
 
 ![Tabjsv](http://i.imgur.com/sOqu4Nx.png)
+
+These same commands are available wrapped/aliased for use in shell environments
+(Bash and PowerShell). For Bash, source the `tabv.sh` file in your `.bashrc`,
+or for PowerShell source the `tabv.ps1` in your `$profile`. Two addition
+commands are define in each environment: `vs` and `sp`, which will open two
+files split vertically or horizontally.
 
 ### Open relevant files for already opened file in same tab
 Will attempt to figure out where the unit tests for the current buffer are and
