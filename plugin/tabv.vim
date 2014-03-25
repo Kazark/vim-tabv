@@ -94,7 +94,8 @@ function s:OpenTabForGuessedLanguage(name)
 endfunction
 
 function s:VerticalSplitUnitTests()
-    call s:VerticalSplit('**', expand('%:t:r'), g:tabv_javascript_unittest_extension)
+    call s:GuessPathsFromGruntfile()
+    call s:VerticalSplit(g:tabv_javascript_unittest_directory, expand('%:t:r'), g:tabv_javascript_unittest_extension)
 endfunction
 
 command -nargs=1 -complete=file Tabv call <SID>OpenTabForGuessedLanguage("<args>")

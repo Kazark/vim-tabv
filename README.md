@@ -53,8 +53,6 @@ open them in a vertically split window:
 
     :Vsunittests
 
-Note: initial implementation of this is very crappy.
-
 ## Desired future behavior
 + Implement for more languages (if you have a language you would like to see
   implemented, let me know; I'm working on features on an as-needed basis)
