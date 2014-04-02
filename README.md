@@ -59,3 +59,7 @@ open them in a vertically split window:
 + Have functions make more intelligent attempts to find the files you want
   - Based on makefile for C++ projects
   - Improved `Gruntfile`-based guessing algorithm
++ Better handling of `**` in paths for `:Vsunittests`
++ Possible (?):
+  - Angular: pull up HTML file for a controller, or vice-versa
+  - Pull up a file for the wonder under the cursor
