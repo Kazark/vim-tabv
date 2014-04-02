@@ -111,9 +111,9 @@ function s:VerticalSplitUnitTests()
     endif
 endfunction
 
-command -nargs=1 -complete=file Tabv call <SID>OpenTabForGuessedLanguage("<args>")
-command -nargs=1 -complete=file Tabcxxv call <SID>OpenTabCPlusPlus("<args>")
-command -nargs=1 -complete=file Tabjsv call <SID>OpenTabJavaScript("<args>")
+command -nargs=1 -complete=file Tabv call <SID>OpenTabForGuessedLanguage(<f-args>)
+command -nargs=1 -complete=file Tabcxxv call <SID>OpenTabCPlusPlus(<f-args>)
+command -nargs=1 -complete=file Tabjsv call <SID>OpenTabJavaScript(<f-args>)
 
 command -nargs=0 Vsunittests call <SID>VerticalSplitUnitTests()
 
