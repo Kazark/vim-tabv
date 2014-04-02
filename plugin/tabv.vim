@@ -79,23 +79,36 @@ function s:GuessPathsFromGruntfile()
 endfunction
 
 function s:OpenTabForGuessedLanguage(name)
-    if &filetype == ""
-        if filereadable(g:tabv_grunt_file_path) " Assume this is a JavaScript project
-            call s:GuessPathsFromGruntfile()
-            call s:OpenTabJavaScript(a:name)
-        else
-            call s:OpenTabCPlusPlus(a:name)
-        endif
-    elseif &filetype == "javascript"
+    let l:language = s:GuessLanguage()
+    if l:language == "javascript"
         call s:OpenTabJavaScript(a:name)
     else
         call s:OpenTabCPlusPlus(a:name)
     endif
 endfunction
 
+function s:GuessLanguage()
+    if &filetype == ""
+        if filereadable(g:tabv_grunt_file_path) " Assume this is a JavaScript project
+            call s:GuessPathsFromGruntfile()
+            return "javascript"
+        else
+            return "unknown"
+        endif
+    elseif &filetype == "javascript"
+        return "javascript"
+    else
+        return "unknown"
+    endif
+endfunction
+
 function s:VerticalSplitUnitTests()
-    call s:GuessPathsFromGruntfile()
-    call s:VerticalSplit(g:tabv_javascript_unittest_directory, expand('%:t:r'), g:tabv_javascript_unittest_extension)
+    let l:language = s:GuessLanguage()
+    if l:language == 'javascript'
+        call s:VerticalSplit(g:tabv_javascript_unittest_directory, expand('%:t:r'), g:tabv_javascript_unittest_extension)
+    else
+        call s:VerticalSplit(g:tabv_cplusplus_unittest_directory, expand('%:t:r'), g:tabv_cplusplus_unittest_extension)
+    endif
 endfunction
 
 command -nargs=1 -complete=file Tabv call <SID>OpenTabForGuessedLanguage("<args>")
