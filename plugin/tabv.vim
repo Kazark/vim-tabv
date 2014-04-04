@@ -14,6 +14,10 @@ let g:tabv_cplusplus_include_extension=".hpp"
 let g:tabv_cplusplus_unittest_directory="unittest"
 let g:tabv_cplusplus_unittest_extension="Tests.cpp"
 
+function s:TabHasOnlyOneBufferAndThatNamelessAndVoid()
+    return line('$') == 1 && getline(1) == '' && expand('%') == '' && len(tabpagebuflist()) == 1
+endfunction
+
 function s:TabEdit(directory, name, extension)
     let l:filepath = a:directory . "/" . a:name . a:extension
     let l:expandedPath = expand(l:filepath, 0, 1) " expand as list in case filepath is a glob
@@ -28,7 +32,7 @@ function s:TabEdit(directory, name, extension)
         let l:filepath = l:expandedPath[l:index-1]
     endif
     let l:editcmd = "tabedit "
-    if line('$') == 1 && getline(1) == '' && expand('%') == '' && len(tabpagebuflist()) == 1
+    if s:TabHasOnlyOneBufferAndThatNamelessAndVoid()
         let l:editcmd = "edit "
     endif
     execute l:editcmd . l:filepath
