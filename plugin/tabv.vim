@@ -140,10 +140,23 @@ endfunction
 function s:VerticalSplitUnitTests()
     let l:language = s:GuessLanguage()
     if l:language == 'javascript'
-        call s:VerticalSplit(g:tabv_javascript_unittest_directory, expand('%:t:r'), g:tabv_javascript_unittest_extension)
+        let l:unittest_directory=g:tabv_javascript_unittest_directory
+        let l:unittest_extension=g:tabv_javascript_unittest_extension
+        let l:source_directory=g:tabv_javascript_source_directory
     else
-        call s:VerticalSplit(g:tabv_cplusplus_unittest_directory, expand('%:t:r'), g:tabv_cplusplus_unittest_extension)
+        let l:unittest_directory=g:tabv_cplusplus_unittest_directory
+        let l:unittest_extension=g:tabv_cplusplus_unittest_extension
+        let l:source_directory=g:tabv_cplusplus_source_directory
     endif
+    " Attempt to handle globs in filepaths...
+    let l:globlocation=match(getcwd() . '/' . l:source_directory, '\*\*')
+    if l:globlocation > -1
+        " Substititute ** in the unit test directory name for what it
+        " expanded to in the path of the source file, escaping backslashes and
+        " spaces in case we are on Windows
+        let l:unittest_directory=substitute(l:unittest_directory, '\*\*', escape(expand('%:p:h')[l:globlocation :], ' \'), "")
+    endif
+    call s:VerticalSplit(l:unittest_directory, expand('%:t:r'), l:unittest_extension)
 endfunction
 
 command -nargs=1 -complete=file Tabv call <SID>OpenTabForGuessedLanguage(<f-args>)

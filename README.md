@@ -59,7 +59,6 @@ open them in a vertically split window:
 + Have functions make more intelligent attempts to find the files you want
   - Based on makefile for C++ projects
   - Improved `Gruntfile`-based guessing algorithm
-+ Better handling of `**` in paths for `:Vsunittests`
 + Prompt one multiple files names for vertical split and split functions
   (already implemented for tab edit)
 + Possible (?):
