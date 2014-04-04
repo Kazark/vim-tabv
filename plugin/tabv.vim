@@ -15,11 +15,23 @@ let g:tabv_cplusplus_unittest_directory="unittest"
 let g:tabv_cplusplus_unittest_extension="Tests.cpp"
 
 function s:TabEdit(directory, name, extension)
+    let l:filepath = a:directory . "/" . a:name . a:extension
+    let l:expandedPath = expand(l:filepath, 0, 1) " expand as list in case filepath is a glob
+    if len(l:expandedPath) > 1
+        let l:listForPrompt = ["Multiple files found. Please select one:"]
+        let l:index = 1
+        for l:item in l:expandedPath
+            call add(l:listForPrompt, l:index . ". " . l:item)
+            let l:index += 1
+        endfor
+        let l:index = inputlist(l:listForPrompt)
+        let l:filepath = l:expandedPath[l:index-1]
+    endif
     let l:editcmd = "tabedit "
     if line('$') == 1 && getline(1) == '' && expand('%') == '' && len(tabpagebuflist()) == 1
         let l:editcmd = "edit "
     endif
-    execute l:editcmd . a:directory . "/" . a:name . a:extension
+    execute l:editcmd . l:filepath
 endfunction
 
 function s:VerticalSplit(directory, name, extension)

@@ -20,12 +20,11 @@ It is designed to be used through the `:Tabv` command, which will guess which of
 the supported commands to use (currently, it will try to guess whether it is
 JavaScript, and if it is not, will fall back on C++).
 
-However, if you aren't as braindead as I am, you can you the specific commands
-directly. Currently it supports C++ through `:Tabcxxv` and JavaScript through
-`:Tabjsv`. The C++ command will bring up the header file, the source file, and
-the unit tests. The JavaScript command will bring up the script and its unit
-tests. The locations and extension of these files can be configured through
-global variables.
+However, you can you the specific commands directly. Currently it supports C++
+through `:Tabcxxv` and JavaScript through `:Tabjsv`. The C++ command will bring
+up the header file, the source file, and the unit tests. The JavaScript command
+will bring up the script and its unit tests. The locations and extension of
+these files can be configured through global variables.
 
 Example uses:
 
@@ -61,6 +60,8 @@ open them in a vertically split window:
   - Based on makefile for C++ projects
   - Improved `Gruntfile`-based guessing algorithm
 + Better handling of `**` in paths for `:Vsunittests`
++ Prompt one multiple files names for vertical split and split functions
+  (already implemented for tab edit)
 + Possible (?):
   - Angular: pull up HTML file for a controller, or vice-versa
   - Pull up a file for the word under the cursor
