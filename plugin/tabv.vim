@@ -78,10 +78,30 @@ function s:GuessPathsFromGruntfile()
     close
 endfunction
 
+let g:tabv_csharp_source_extension=".cs"
+let g:tabv_csharp_unittest_extension="Tests.cs"
+
+function s:OpenTabCSharp(name)
+    call s:TabEdit(g:tabv_csharp_source_directory, a:name, g:tabv_csharp_source_extension)
+    call s:VerticalSplit(g:tabv_csharp_unittest_directory, a:name, g:tabv_csharp_unittest_extension)
+endfunction
+
+function s:GuessPathsFromSolutionFile()
+    if exists('g:tabv_guessed_paths')
+        return
+    endif
+    execute "sview " . expand("*.sln")
+    " TODO here
+    let g:tabv_guessed_paths=1
+    close
+endfunction
+
 function s:OpenTabForGuessedLanguage(name)
     let l:language = s:GuessLanguage()
     if l:language == "javascript"
         call s:OpenTabJavaScript(a:name)
+    elseif l:language == "csharp"
+        call s:OpenTabCSharp(a:name)
     else
         call s:OpenTabCPlusPlus(a:name)
     endif
@@ -92,6 +112,9 @@ function s:GuessLanguage()
         if filereadable(g:tabv_grunt_file_path) " Assume this is a JavaScript project
             call s:GuessPathsFromGruntfile()
             return "javascript"
+        elseif filereadable(expand("*.sln"))
+            calls s:GuessPathsFromSolutionFile()
+            return "csharp"
         else
             return "unknown"
         endif

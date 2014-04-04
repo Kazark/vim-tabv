@@ -56,10 +56,13 @@ open them in a vertically split window:
 ## Desired future behavior
 + Implement for more languages (if you have a language you would like to see
   implemented, let me know; I'm working on features on an as-needed basis)
+  - C# (in progress)
 + Have functions make more intelligent attempts to find the files you want
   - Based on makefile for C++ projects
   - Improved `Gruntfile`-based guessing algorithm
 + Better handling of `**` in paths for `:Vsunittests`
 + Possible (?):
   - Angular: pull up HTML file for a controller, or vice-versa
-  - Pull up a file for the wonder under the cursor
+  - Pull up a file for the word under the cursor
+  - Remove language-specific commands now that `:Tabv` has a language-guessing
+    algorithm
