@@ -9,7 +9,7 @@ let g:tabv_cplusplus_include_extension=".hpp"
 let g:tabv_cplusplus_unittest_directory="unittest"
 let g:tabv_cplusplus_unittest_extension="Tests.cpp"
 
-function tabv#TabHasOnlyOneBufferAndThatNamelessAndVoid()
+function tabv#TabIsEmpty()
     return line('$') == 1 && getline(1) == '' && expand('%') == '' && len(tabpagebuflist()) == 1
 endfunction
 
@@ -27,7 +27,7 @@ function tabv#TabEdit(directory, name, extension)
         let l:filepath = l:expandedPath[l:index-1]
     endif
     let l:editcmd = "tabedit "
-    if tabv#TabHasOnlyOneBufferAndThatNamelessAndVoid()
+    if tabv#TabIsEmpty()
         let l:editcmd = "edit "
     endif
     execute l:editcmd . l:filepath

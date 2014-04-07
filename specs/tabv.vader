@@ -1,0 +1,23 @@
+Execute (the tab is considered empty when it has only one buffer, which has no name or contents):
+    tabedit
+    AssertEqual 1, tabv#TabIsEmpty()
+    tabclose
+
+Execute (the tab is not considered empty when it has two buffers):
+    tabedit | split
+    AssertEqual 0, tabv#TabIsEmpty()
+    tabclose
+
+Execute (the tab is not considered empty when it a buffer with a name):
+    tabedit named_buffer.txt
+    AssertEqual 0, tabv#TabIsEmpty()
+    tabclose
+
+Given (something in the buffer):
+    asdf
+
+After:
+    tabclose!
+
+Execute (the tab is not considered empty when it has buffer with contents):
+    AssertEqual 0, tabv#TabIsEmpty()
