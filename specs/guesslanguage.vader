@@ -1,3 +1,11 @@
-Execute (guesses project is JavaScript project if currently open file's filetype is JavaScript):
+Execute (returns "unknown" if it fails to guess the project type when current file does not have filetype set):
+  set filetype=""
+  AssertEqual "unknown", tabv#GuessLanguage()
+
+Execute (guesses project is JavaScript project if currently open file's type is JavaScript):
   setfiletype javascript
   AssertEqual "javascript", tabv#GuessLanguage()
+
+Execute (returns "unknown" if it fails to guess the project type from the current filetype):
+  setfiletype xxx
+  AssertEqual "unknown", tabv#GuessLanguage()
