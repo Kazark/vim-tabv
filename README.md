@@ -14,8 +14,7 @@ those plugins are far more mature and powerful than this one is, plus the guys
 who wrote them are way better with VimL than I am. I recommend them both above
 this one.
 
-## Current behavior
-### Open a tab and populate it with related files
+## Open a tab and populate it with related files
 The main command is `:Tabv`. It takes one argument, which is the "root" or
 "stem" of the set of files you want to open (see below for examples). It
 attempts to guess the type of project you are working on and open the files
@@ -53,21 +52,8 @@ for PowerShell source the `tabv.ps1` in your `$profile`. Two addition commands
 are define in each environment: `vs` and `sp`, which will open two files split
 vertically or horizontally.
 
-### Open relevant files for already opened file in same tab
+## Open relevant files for already opened file in same tab
 Will attempt to figure out where the unit tests for the current buffer are and
 open them in a vertically split window:
 
     :Vsunittests
-
-## Desired future behavior
-+ Implement for more languages (if you have a language you would like to see
-  implemented, let me know; I'm working on features on an as-needed basis)
-  - C# (in progress)
-+ Have functions make more intelligent attempts to find the files you want
-  - Based on `makefile` for C++ projects
-  - Improved `Gruntfile`-based guessing algorithm
-+ Prompt one multiple files names for vertical split and split functions
-  (already implemented for tab edit)
-+ Possible (?):
-  - Angular: pull up HTML file for a controller, or vice-versa
-  - Pull up a file for the word under the cursor
