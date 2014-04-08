@@ -68,11 +68,13 @@ function tabv#OpenTabJavaScript(name)
     call tabv#VerticalSplit(g:tabv_javascript_unittest_directory, a:name, g:tabv_javascript_unittest_extension)
 endfunction
 
-let g:tabv_grunt_file_path='Gruntfile.js'
+let g:tabv_gruntfile_path='Gruntfile.js'
+
+let g:tabv_gruntfile_regex='[''"]\(.*\)/\*%s[''"]'
 
 function tabv#ScrapeSpecDirectoryFromOpenGruntfile()
     global/^\_s*['"].*\*\.spec\.js['"]\_s*[,\]]\_s*/y a
-    let l:matches = matchlist(getreg('a'), '[''"]\(.*\)/\*\.spec\.js[''"]')
+    let l:matches = matchlist(getreg('a'), printf(g:tabv_gruntfile_regex, escape(g:tabv_javascript_unittest_extension, '.')))
     if len(l:matches) > 1
         let g:tabv_javascript_unittest_directory = l:matches[1]
     endif
@@ -80,7 +82,7 @@ endfunction
 
 function tabv#ScrapeSourceDirectoryFromOpenGruntfile()
     global/^\_s*['"].*\*\.js['"]\_s*[,\]]\_s*/y a
-    let l:matches = matchlist(getreg('a'), '[''"]\(.*\)/\*\.js[''"]')
+    let l:matches = matchlist(getreg('a'), printf(g:tabv_gruntfile_regex, escape(g:tabv_javascript_source_extension, '.')))
     if len(l:matches) > 1
         let g:tabv_javascript_source_directory = l:matches[1]
     endif
@@ -90,7 +92,7 @@ function tabv#GuessPathsFromGruntfile()
     if exists('g:tabv_guessed_paths')
         return
     endif
-    execute "sview " . g:tabv_grunt_file_path
+    execute "sview " . g:tabv_gruntfile_path
     call tabv#ScrapeSpecDirectoryFromOpenGruntfile()
     call tabv#ScrapeSourceDirectoryFromOpenGruntfile()
     let g:tabv_guessed_paths=1
@@ -128,7 +130,7 @@ endfunction
 
 function tabv#GuessLanguage()
     if &filetype == ""
-        if filereadable(g:tabv_grunt_file_path) " Assume this is a JavaScript project
+        if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
             call tabv#GuessPathsFromGruntfile()
             return "javascript"
         elseif filereadable(expand("*.sln"))
