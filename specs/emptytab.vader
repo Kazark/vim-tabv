@@ -16,8 +16,5 @@ Execute (the tab is not considered empty when it a buffer with a name):
 Given (something in the buffer):
     asdf
 
-After:
-    tabclose!
-
 Execute (the tab is not considered empty when it has buffer with contents):
     AssertEqual 0, tabv#TabIsEmpty()

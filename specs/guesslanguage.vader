@@ -1,0 +1,3 @@
+Execute (guesses project is JavaScript project if currently open file's filetype is JavaScript):
+    setfiletype javascript
+    AssertEqual "javascript", tabv#GuessLanguage()
