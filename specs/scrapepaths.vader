@@ -1,0 +1,16 @@
+Given (Gruntfile fragment):
+  scripts: {
+      files: [
+          'src/modules/**/*.js',
+          'src/tests/**/*.spec.js'
+      ],
+      tasks: ['js-dev', 'copy']
+  },
+
+Execute (can scrape unit test directory):
+  call tabv#ScrapeSpecDirectoryFromOpenGruntfile()
+  AssertEqual 'src/tests/**', g:tabv_javascript_unittest_directory
+
+Execute (can scrape source files directory):
+  call tabv#ScrapeSourceDirectoryFromOpenGruntfile()
+  AssertEqual 'src/modules/**', g:tabv_javascript_source_directory

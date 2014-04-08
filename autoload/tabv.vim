@@ -70,21 +70,29 @@ endfunction
 
 let g:tabv_grunt_file_path='Gruntfile.js'
 
-function tabv#GuessPathsFromGruntfile()
-    if exists('g:tabv_guessed_paths')
-        return
-    endif
-    execute "sview " . g:tabv_grunt_file_path
+function tabv#ScrapeSpecDirectoryFromOpenGruntfile()
     global/^\_s*['"].*\*\.spec\.js['"]\_s*[,\]]\_s*/y a
     let l:matches = matchlist(getreg('a'), '[''"]\(.*\)/\*\.spec\.js[''"]')
     if len(l:matches) > 1
         let g:tabv_javascript_unittest_directory = l:matches[1]
     endif
+endfunction
+
+function tabv#ScrapeSourceDirectoryFromOpenGruntfile()
     global/^\_s*['"].*\*\.js['"]\_s*[,\]]\_s*/y a
     let l:matches = matchlist(getreg('a'), '[''"]\(.*\)/\*\.js[''"]')
     if len(l:matches) > 1
         let g:tabv_javascript_source_directory = l:matches[1]
     endif
+endfunction
+
+function tabv#GuessPathsFromGruntfile()
+    if exists('g:tabv_guessed_paths')
+        return
+    endif
+    execute "sview " . g:tabv_grunt_file_path
+    call tabv#ScrapeSpecDirectoryFromOpenGruntfile()
+    call tabv#ScrapeSourceDirectoryFromOpenGruntfile()
     let g:tabv_guessed_paths=1
     close
 endfunction
