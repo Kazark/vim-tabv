@@ -73,6 +73,7 @@ let g:tabv_gruntfile_path='Gruntfile.js'
 let g:tabv_gruntfile_regex='[''"]\(.*\)/\*%s[''"]'
 
 function tabv#ScrapeSpecDirectoryFromOpenGruntfile()
+    call setreg('a', '')
     global/^\_s*['"].*\*\.spec\.js['"]\_s*[,\]]\_s*/y a
     let l:matches = matchlist(getreg('a'), printf(g:tabv_gruntfile_regex, escape(g:tabv_javascript_unittest_extension, '.')))
     if len(l:matches) > 1
@@ -81,6 +82,7 @@ function tabv#ScrapeSpecDirectoryFromOpenGruntfile()
 endfunction
 
 function tabv#ScrapeSourceDirectoryFromOpenGruntfile()
+    call setreg('a', '')
     global/^\_s*['"].*\*\.js['"]\_s*[,\]]\_s*/y a
     let l:matches = matchlist(getreg('a'), printf(g:tabv_gruntfile_regex, escape(g:tabv_javascript_source_extension, '.')))
     if len(l:matches) > 1
