@@ -45,7 +45,7 @@ Example for a JavaScript project:
 
     :Tabv tokens
 
-![Tabv for JavaScript](http://i.imgur.com/sOqu4Nx.png)
+![Tabv for JavaScript](http://i.imgur.com/TtEPlbQ.png)
 
 The same command is available wrapped/aliased for use in shell environments
 (Bash and PowerShell). For Bash, source the `tabv.sh` file in your `.bashrc`, or
