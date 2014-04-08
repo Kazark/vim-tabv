@@ -9,11 +9,3 @@ function vs($file1, $file2) {
 function Tabv($name) {
     vim -c "Tabv $name"
 }
-
-function Tabcxxv($name) {
-    vim -c "Tabcxxv $name"
-}
-
-function Tabjsv($name) {
-    vim -c "Tabjsv $name"
-}
