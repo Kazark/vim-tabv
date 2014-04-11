@@ -41,11 +41,11 @@ function tabv#TabEdit(filepath)
 endfunction
 
 function tabv#VerticalSplit(filepath)
-    execute "vsplit " . a:filepath
+    execute "vsplit " . tabv#ExpandToUniqueFilepath(a:filepath)
 endfunction
 
 function tabv#HorizontalSplit(filepath)
-    execute "split " . a:filepath
+    execute "split " . tabv#ExpandToUniqueFilepath(a:filepath)
 endfunction
 
 " This is for the OpenTabCPlusPlus function, which will not open a source file
