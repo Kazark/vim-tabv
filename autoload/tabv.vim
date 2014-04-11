@@ -111,6 +111,17 @@ endfunction
 let g:tabv_csharp_source_extension=".cs"
 let g:tabv_csharp_unittest_extension="Tests.cs"
 
+function tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
+    let l:projectList = []
+    for line in a:linesFromSolution
+        let l:matches = matchlist(line, '^Project(.\+"\(.\+\.csproj\)"')
+        if l:matches != []
+            call add(l:projectList, l:matches[1])
+        endif
+    endfor
+    return l:projectList
+endfunction
+
 function tabv#OpenTabCSharp(name)
     call tabv#TabEdit(tabv#BuildPath(g:tabv_csharp_source_directory, a:name, g:tabv_csharp_source_extension))
     call tabv#VerticalSplit(tabv#BuildPath(g:tabv_csharp_unittest_directory, a:name, g:tabv_csharp_unittest_extension))
