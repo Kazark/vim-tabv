@@ -15,7 +15,7 @@ endfunction
 
 function tabv#TabEdit(directory, name, extension)
     let l:filepath = a:directory . "/" . a:name . a:extension
-    let l:expandedPath = expand(l:filepath, 0, 1) " expand as list in case filepath is a glob
+    let l:expandedPath = split(expand(l:filepath), "\n") " expand as list in case filepath is a glob
     if len(l:expandedPath) > 1
         let l:listForPrompt = ["Multiple files found. Please select one:"]
         let l:index = 1
@@ -44,15 +44,15 @@ endfunction
 " This is for the OpenTabCPlusPlus function, which will not open a source file
 " if a name is suffixed with <>, i.e. Tabcxxv List<> will only open, say,
 " inc/List.hpp and unittest/ListTests.cpp, vertically split
-let tabv#GENERIC_REGEX = "<>$"
+let g:tabv_generic_regex = "<>$"
 
 function tabv#OpenTabCPlusPlus(name)
-    if match(a:name, tabv#GENERIC_REGEX) == -1
+    if match(a:name, g:tabv_generic_regex) == -1
         call tabv#TabEdit(g:tabv_cplusplus_source_directory, a:name, g:tabv_cplusplus_source_extension)
         call tabv#VerticalSplit(g:tabv_cplusplus_include_directory, a:name, g:tabv_cplusplus_include_extension)
         call tabv#HorizontalSplit(g:tabv_cplusplus_unittest_directory, a:name, g:tabv_cplusplus_unittest_extension)
     else
-        let l:name = substitute(a:name, tabv#GENERIC_REGEX, "", "")
+        let l:name = substitute(a:name, g:tabv_generic_regex, "", "")
         call tabv#TabEdit(g:tabv_cplusplus_include_directory, l:name, g:tabv_cplusplus_include_extension)
         call tabv#VerticalSplit(g:tabv_cplusplus_unittest_directory, l:name, g:tabv_cplusplus_unittest_extension)
     endif
