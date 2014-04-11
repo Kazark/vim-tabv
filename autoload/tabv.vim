@@ -13,9 +13,12 @@ function tabv#TabIsEmpty()
     return line('$') == 1 && getline(1) == '' && expand('%') == '' && len(tabpagebuflist()) == 1
 endfunction
 
-function tabv#TabEdit(directory, name, extension)
-    let l:filepath = a:directory . "/" . a:name . a:extension
-    let l:expandedPath = split(expand(l:filepath), "\n") " expand as list in case filepath is a glob
+function tabv#BuildPath(directory, name, extension)
+    return a:directory . "/" . a:name . a:extension
+endfunction
+
+function tabv#ExpandToUniqueFilepath(filepath)
+    let l:expandedPath = split(expand(a:filepath), "\n") " expand as list in case filepath is a glob
     if len(l:expandedPath) > 1
         let l:listForPrompt = ["Multiple files found. Please select one:"]
         let l:index = 1
@@ -24,21 +27,25 @@ function tabv#TabEdit(directory, name, extension)
             let l:index += 1
         endfor
         let l:index = inputlist(l:listForPrompt)
-        let l:filepath = l:expandedPath[l:index-1]
+        return l:expandedPath[l:index-1]
     endif
+    return a:filepath
+endfunction
+
+function tabv#TabEdit(filepath)
     let l:editcmd = "tabedit "
     if tabv#TabIsEmpty()
         let l:editcmd = "edit "
     endif
-    execute l:editcmd . l:filepath
+    execute l:editcmd . tabv#ExpandToUniqueFilepath(a:filepath)
 endfunction
 
-function tabv#VerticalSplit(directory, name, extension)
-    execute "vsplit " . a:directory . "/" . a:name . a:extension
+function tabv#VerticalSplit(filepath)
+    execute "vsplit " . a:filepath
 endfunction
 
-function tabv#HorizontalSplit(directory, name, extension)
-    execute "split " . a:directory . "/" . a:name . a:extension
+function tabv#HorizontalSplit(filepath)
+    execute "split " . a:filepath
 endfunction
 
 " This is for the OpenTabCPlusPlus function, which will not open a source file
@@ -48,13 +55,13 @@ let g:tabv_generic_regex = "<>$"
 
 function tabv#OpenTabCPlusPlus(name)
     if match(a:name, g:tabv_generic_regex) == -1
-        call tabv#TabEdit(g:tabv_cplusplus_source_directory, a:name, g:tabv_cplusplus_source_extension)
-        call tabv#VerticalSplit(g:tabv_cplusplus_include_directory, a:name, g:tabv_cplusplus_include_extension)
-        call tabv#HorizontalSplit(g:tabv_cplusplus_unittest_directory, a:name, g:tabv_cplusplus_unittest_extension)
+        call tabv#TabEdit(tabv#BuildPath(g:tabv_cplusplus_source_directory, a:name, g:tabv_cplusplus_source_extension))
+        call tabv#VerticalSplit(tabv#BuildPath(g:tabv_cplusplus_include_directory, a:name, g:tabv_cplusplus_include_extension))
+        call tabv#HorizontalSplit(tabv#BuildPath(g:tabv_cplusplus_unittest_directory, a:name, g:tabv_cplusplus_unittest_extension))
     else
         let l:name = substitute(a:name, g:tabv_generic_regex, "", "")
-        call tabv#TabEdit(g:tabv_cplusplus_include_directory, l:name, g:tabv_cplusplus_include_extension)
-        call tabv#VerticalSplit(g:tabv_cplusplus_unittest_directory, l:name, g:tabv_cplusplus_unittest_extension)
+        call tabv#TabEdit(tabv#BuildPath(g:tabv_cplusplus_include_directory, l:name, g:tabv_cplusplus_include_extension))
+        call tabv#VerticalSplit(tabv#BuildPath(g:tabv_cplusplus_unittest_directory, l:name, g:tabv_cplusplus_unittest_extension))
     endif
 endfunction
 
@@ -64,8 +71,8 @@ let g:tabv_javascript_unittest_directory="unittests"
 let g:tabv_javascript_unittest_extension=".spec.js"
 
 function tabv#OpenTabJavaScript(name)
-    call tabv#TabEdit(g:tabv_javascript_source_directory, a:name, g:tabv_javascript_source_extension)
-    call tabv#VerticalSplit(g:tabv_javascript_unittest_directory, a:name, g:tabv_javascript_unittest_extension)
+    call tabv#TabEdit(tabv#BuildPath(g:tabv_javascript_source_directory, a:name, g:tabv_javascript_source_extension))
+    call tabv#VerticalSplit(tabv#BuildPath(g:tabv_javascript_unittest_directory, a:name, g:tabv_javascript_unittest_extension))
 endfunction
 
 let g:tabv_gruntfile_path='Gruntfile.js'
@@ -105,8 +112,8 @@ let g:tabv_csharp_source_extension=".cs"
 let g:tabv_csharp_unittest_extension="Tests.cs"
 
 function tabv#OpenTabCSharp(name)
-    call tabv#TabEdit(g:tabv_csharp_source_directory, a:name, g:tabv_csharp_source_extension)
-    call tabv#VerticalSplit(g:tabv_csharp_unittest_directory, a:name, g:tabv_csharp_unittest_extension)
+    call tabv#TabEdit(tabv#BuildPath(g:tabv_csharp_source_directory, a:name, g:tabv_csharp_source_extension))
+    call tabv#VerticalSplit(tabv#BuildPath(g:tabv_csharp_unittest_directory, a:name, g:tabv_csharp_unittest_extension))
 endfunction
 
 function tabv#GuessPathsFromSolutionFile()
@@ -167,7 +174,7 @@ function tabv#VerticalSplitUnitTests()
         " spaces in case we are on Windows
         let l:unittest_directory=substitute(l:unittest_directory, '\*\*', escape(expand('%:p:h')[l:globlocation :], ' \'), "")
     endif
-    call tabv#VerticalSplit(l:unittest_directory, expand('%:t:r'), l:unittest_extension)
+    call tabv#VerticalSplit(tabv#BuildPath(l:unittest_directory, expand('%:t:r'), l:unittest_extension))
 endfunction
 
 let g:tabv_loaded=1
