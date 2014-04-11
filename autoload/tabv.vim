@@ -114,9 +114,9 @@ let g:tabv_csharp_unittest_extension="Tests.cs"
 function tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
     let l:projectList = []
     for line in a:linesFromSolution
-        let l:matches = matchlist(l:line, '^Project(.\+"\(.\+\.csproj\)"')
+        let l:matches = matchlist(l:line, '^Project(.\+) = "\(.\+\)", "\(.\+\.csproj\)"')
         if l:matches != []
-            call add(l:projectList, l:matches[1])
+            call add(l:projectList, [l:matches[1], l:matches[2]])
         endif
     endfor
     return l:projectList
@@ -132,19 +132,27 @@ function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
     return ''
 endfunction
 
+function tabv#LookInCsProjsForFilepathOf(filename)
+    for projectPair in g:tabv_csproj_list
+        let l:filepath = tabv#InCsProjLinesFindFilepathOf(readfile(l:projectPair[1]), a:filename)
+        if l:filepath != ""
+            return l:projectPair[0] . '/' . l:filepath
+        endif
+    endfor
+    return ""
+endfunction
+
 function tabv#OpenTabCSharp(name)
-    call tabv#TabEdit(tabv#BuildPath(g:tabv_csharp_source_directory, a:name, g:tabv_csharp_source_extension))
-    call tabv#VerticalSplit(tabv#BuildPath(g:tabv_csharp_unittest_directory, a:name, g:tabv_csharp_unittest_extension))
+    call tabv#TabEdit(tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_source_extension))
+    call tabv#VerticalSplit(tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_unittest_extension))
 endfunction
 
 function tabv#GuessPathsFromSolutionFile()
     if exists('g:tabv_guessed_paths')
         return
     endif
-    execute "sview " . expand("*.sln")
-    " TODO here
+    let g:tabv_csproj_list = tabv#ScrapeProjectFilePathsFromLines(readfile(expand('*.sln'))) " Not multiple-solution safe
     let g:tabv_guessed_paths=1
-    close
 endfunction
 
 function tabv#OpenTabForGuessedLanguage(name)
@@ -164,7 +172,7 @@ function tabv#GuessLanguage()
             call tabv#GuessPathsFromGruntfile()
             return "javascript"
         elseif filereadable(expand("*.sln"))
-            calls tabv#GuessPathsFromSolutionFile()
+            call tabv#GuessPathsFromSolutionFile()
             return "csharp"
         else
             return "unknown"
