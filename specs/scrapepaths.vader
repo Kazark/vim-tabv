@@ -1,8 +1,12 @@
 Execute (Can find *.csproj paths in a Visual Studio solution file):
-  let linesReadFromSolution = ['Microsoft Visual Studio Solution File, Format Version 11.00', '# Visual Studio 2010', 'Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConwayGameOfLife-EventDriven", "ConwayGameOfLife-EventDriven\ConwayGameOfLife-EventDriven.csproj", "{19A72A01-9DB1-4F13-9A08-5D556C3710C9}"', 'EndProject', 'Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "GameOfLife\GameOfLife.csproj", "{FB61DEDD-01B3-4399-ADD6-AABA545A1ACC}"', 'EndProject', 'Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.UnitTests", "GameOfLife.UnitTests\GameOfLife.UnitTests.csproj", "{27642CF7-C932-4791-B6F2-7D226CE4A148}"', 'EndProject', 'Global', 'GlobalSection(SolutionConfigurationPlatforms) = preSolution']
+  let linesFromSolution = ['Microsoft Visual Studio Solution File, Format Version 11.00', '# Visual Studio 2010', 'Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConwayGameOfLife-EventDriven", "ConwayGameOfLife-EventDriven\ConwayGameOfLife-EventDriven.csproj", "{19A72A01-9DB1-4F13-9A08-5D556C3710C9}"', 'EndProject', 'Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "GameOfLife\GameOfLife.csproj", "{FB61DEDD-01B3-4399-ADD6-AABA545A1ACC}"', 'EndProject', 'Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife.UnitTests", "GameOfLife.UnitTests\GameOfLife.UnitTests.csproj", "{27642CF7-C932-4791-B6F2-7D226CE4A148}"', 'EndProject', 'Global', 'GlobalSection(SolutionConfigurationPlatforms) = preSolution']
   let expectedProjectList = ['ConwayGameOfLife-EventDriven\ConwayGameOfLife-EventDriven.csproj', 'GameOfLife\GameOfLife.csproj', 'GameOfLife.UnitTests\GameOfLife.UnitTests.csproj']
-  let projectList = tabv#ScrapeProjectFilePathsFromLines(linesReadFromSolution)
+  let projectList = tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
   AssertEqual expectedProjectList, projectList
+
+Execute (Given name stem can find path of file in .csproj):
+  let linesFromCsProj = ['    <Reference Include="System.Xml" />', '  </ItemGroup>', '  <ItemGroup>', '    <Compile Include="Core\Cell.cs" />', '    <Compile Include="Core\Events\GameInitiated.cs" />', '    <Compile Include="Core\Events\GameIsOscillating.cs" />']
+  AssertEqual 'Core\Events\GameIsOscillating.cs', tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, "GameIsOscillating.cs")
 
 Given (Gruntfile fragment):
   scripts: {

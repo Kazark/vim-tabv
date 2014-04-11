@@ -114,12 +114,22 @@ let g:tabv_csharp_unittest_extension="Tests.cs"
 function tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
     let l:projectList = []
     for line in a:linesFromSolution
-        let l:matches = matchlist(line, '^Project(.\+"\(.\+\.csproj\)"')
+        let l:matches = matchlist(l:line, '^Project(.\+"\(.\+\.csproj\)"')
         if l:matches != []
             call add(l:projectList, l:matches[1])
         endif
     endfor
     return l:projectList
+endfunction
+
+function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
+    for line in a:linesFromCsProj
+        let l:matches = matchlist(l:line, '<Compile Include="\(.*' . a:filename . '\)" />')
+        if l:matches != []
+            return l:matches[1]
+        endif
+    endfor
+    return ''
 endfunction
 
 function tabv#OpenTabCSharp(name)
