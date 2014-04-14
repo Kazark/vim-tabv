@@ -8,5 +8,6 @@ endif
 let g:tabv_loaded_plugin=1
 
 command -nargs=1 -complete=file Tabv call tabv#OpenTabForGuessedLanguage(<f-args>)
+command -nargs=0 Tvword call tabv#OpenTabForGuessedLanguage(expand('<cword>'))
 command -nargs=0 Vsunittests call tabv#VerticalSplitUnitTests()
 
