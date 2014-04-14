@@ -179,6 +179,8 @@ function tabv#GuessLanguage()
         endif
     elseif &filetype == "javascript"
         return "javascript"
+    elseif &filetype == "cs"
+        return "csharp"
     else
         return "unknown"
     endif
