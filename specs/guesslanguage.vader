@@ -6,10 +6,6 @@ Execute (guesses project is JavaScript project if currently open file's type is 
   setfiletype javascript
   AssertEqual "javascript", tabv#GuessLanguage()
 
-Execute (guesses project is C# project if currently open file's type is C#):
-  setfiletype cs
-  AssertEqual "csharp", tabv#GuessLanguage()
-
 Execute (returns "unknown" if it fails to guess the project type from the current filetype):
   setfiletype xxx
   AssertEqual "unknown", tabv#GuessLanguage()

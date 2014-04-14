@@ -124,7 +124,7 @@ endfunction
 
 function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
     for line in a:linesFromCsProj
-        let l:matches = matchlist(l:line, '<Compile Include="\(.*' . a:filename . '\)" />')
+        let l:matches = matchlist(l:line, '<Compile Include="\(.\+\\' . a:filename . '\)" />') " Does not accomodate files not in subdirectory
         if l:matches != []
             return l:matches[1]
         endif
@@ -167,20 +167,14 @@ function tabv#OpenTabForGuessedLanguage(name)
 endfunction
 
 function tabv#GuessLanguage()
-    if &filetype == ""
-        if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
-            call tabv#GuessPathsFromGruntfile()
-            return "javascript"
-        elseif filereadable(expand("*.sln"))
-            call tabv#GuessPathsFromSolutionFile()
-            return "csharp"
-        else
-            return "unknown"
-        endif
+    if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
+        call tabv#GuessPathsFromGruntfile()
+        return "javascript"
+    elseif filereadable(expand("*.sln"))
+        call tabv#GuessPathsFromSolutionFile()
+        return "csharp"
     elseif &filetype == "javascript"
         return "javascript"
-    elseif &filetype == "cs"
-        return "csharp"
     else
         return "unknown"
     endif
