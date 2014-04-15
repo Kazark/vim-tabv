@@ -143,8 +143,14 @@ function tabv#LookInCsProjsForFilepathOf(filename)
 endfunction
 
 function tabv#OpenTabCSharp(name)
-    call tabv#TabEdit(tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_source_extension))
-    call tabv#VerticalSplit(tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_unittest_extension))
+    let l:sourcePath = tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_source_extension)
+    let l:specPath = tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_unittest_extension)
+    if l:sourcePath != ""
+        call tabv#TabEdit(l:sourcePath)
+    endif
+    if l:specPath != ""
+        call tabv#VerticalSplit(l:specPath)
+    endif
 endfunction
 
 function tabv#GuessPathsFromSolutionFile()
