@@ -187,11 +187,18 @@ function tabv#GuessLanguage()
 endfunction
 
 function tabv#VerticalSplitUnitTests()
+    let l:name = expand('%:t:r')
     let l:language = tabv#GuessLanguage()
     if l:language == 'javascript'
         let l:unittest_directory=g:tabv_javascript_unittest_directory
         let l:unittest_extension=g:tabv_javascript_unittest_extension
         let l:source_directory=g:tabv_javascript_source_directory
+    elseif l:language == 'csharp'
+        let l:specPath = tabv#LookInCsProjsForFilepathOf(l:name . g:tabv_csharp_unittest_extension)
+        if l:specPath != ""
+            call tabv#VerticalSplit(l:specPath)
+        endif
+        return
     else
         let l:unittest_directory=g:tabv_cplusplus_unittest_directory
         let l:unittest_extension=g:tabv_cplusplus_unittest_extension
@@ -205,7 +212,7 @@ function tabv#VerticalSplitUnitTests()
         " spaces in case we are on Windows
         let l:unittest_directory=substitute(l:unittest_directory, '\*\*', escape(expand('%:p:h')[l:globlocation :], ' \'), "")
     endif
-    call tabv#VerticalSplit(tabv#BuildPath(l:unittest_directory, expand('%:t:r'), l:unittest_extension))
+    call tabv#VerticalSplit(tabv#BuildPath(l:unittest_directory, l:name, l:unittest_extension))
 endfunction
 
 let g:tabv_loaded=1
