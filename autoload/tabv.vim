@@ -122,6 +122,14 @@ function tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
     return l:projectList
 endfunction
 
+function tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+    let l:match = matchlist(a:linesFromCsProj[0], '<Compile Include=".*[^._]\([._]\?\([sS]pec\|[tT]est\)s\?.cs\)" />')
+    if l:match == []
+        return ""
+    endif
+    return l:match[1]
+endfunction
+
 function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
     for line in a:linesFromCsProj
         let l:matches = matchlist(l:line, '<Compile Include="\(.\+\\' . a:filename . '\)" />') " Does not accomodate files not in subdirectory
