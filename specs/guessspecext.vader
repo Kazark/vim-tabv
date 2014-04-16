@@ -26,8 +26,8 @@ Execute (C# spec extension can start with a dot, e.g. '.specs.cs'):
   let linesFromCsProj = ['<Compile Include="EventInfrastructure\channel.specs.cs" />']
   AssertEqual ".specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
 
-#Execute (infers the C# spec extension from the dominant match):
-#  let linesFromCsProj = ['<Compile Include="EventForTesting.cs" />', '<Compile Include="Core\Handlers\LivingNeighborsCounter_Specs.cs" />', '<Compile Include="EventInfrastructure\Channel_Specs.cs" />', '<Compile Include="Core\Grid_Specs.cs" />', '<Compile Include="EventHandlerForTesting.cs" />']
-#  AssertEqual "_Spec", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+Execute (infers the C# spec extension from the dominant match):
+  let linesFromCsProj = ['<Compile Include="EventForTests.cs" />', '<Compile Include="Core\Handlers\LivingNeighborsCounter_Specs.cs" />', '<Compile Include="EventInfrastructure\Channel_Specs.cs" />', '<Compile Include="Core\Grid_Specs.cs" />', '<Compile Include="EventHandlerForTests.cs" />']
+  AssertEqual "_Specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
 
 #Execute (ignores AssemblyInfo.cs files):

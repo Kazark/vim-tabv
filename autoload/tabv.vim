@@ -123,11 +123,30 @@ function tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
 endfunction
 
 function tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
-    let l:match = matchlist(a:linesFromCsProj[0], '<Compile Include=".*[^._]\([._]\?\([sS]pec\|[tT]est\)s\?.cs\)" />')
-    if l:match == []
-        return ""
-    endif
-    return l:match[1]
+    let l:candidates = {}
+    let l:total = 0
+    for line in a:linesFromCsProj
+        if match(line, '<Compile Include=".\+" />') > -1
+            let l:total += 1
+            let l:matches = matchlist(line, '[._]\?\([sS]pec\|[tT]est\)s\?.cs')
+            if l:matches == []
+                continue
+            endif
+            let l:extension = l:matches[0]
+            if has_key(l:candidates, l:extension)
+                let l:candidates[l:extension] += 1
+            else
+                let l:candidates[l:extension] = 1
+            endif
+        endif
+    endfor
+    for key in keys(l:candidates)
+        call input('key: ' . key . ' ; value: ' . l:candidates[key])
+        if l:candidates[key]*1.0/l:total > 0.5
+            return key
+        endif
+    endfor
+    return ""
 endfunction
 
 function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
