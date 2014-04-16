@@ -30,4 +30,6 @@ Execute (infers the C# spec extension from the dominant match):
   let linesFromCsProj = ['<Compile Include="EventForTests.cs" />', '<Compile Include="Core\Handlers\LivingNeighborsCounter_Specs.cs" />', '<Compile Include="EventInfrastructure\Channel_Specs.cs" />', '<Compile Include="Core\Grid_Specs.cs" />', '<Compile Include="EventHandlerForTests.cs" />']
   AssertEqual "_Specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
 
-#Execute (ignores AssemblyInfo.cs files):
+Execute (ignores AssemblyInfo.cs files when trying to determine C# spec extension):
+  let linesFromCsProj = ['<Compile Include="Properties\AssemblyInfo.cs" />', '<Compile Include="EventInfrastructure\Channel_Specs.cs" />']
+  AssertEqual "_Specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)

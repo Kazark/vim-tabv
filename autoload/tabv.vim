@@ -127,6 +127,9 @@ function tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
     let l:total = 0
     for line in a:linesFromCsProj
         if match(line, '<Compile Include=".\+" />') > -1
+            if match(line, 'AssemblyInfo\.cs') > -1
+                continue
+            endif
             let l:total += 1
             let l:matches = matchlist(line, '[._]\?\([sS]pec\|[tT]est\)s\?.cs')
             if l:matches == []
@@ -141,7 +144,6 @@ function tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
         endif
     endfor
     for key in keys(l:candidates)
-        call input('key: ' . key . ' ; value: ' . l:candidates[key])
         if l:candidates[key]*1.0/l:total > 0.5
             return key
         endif
