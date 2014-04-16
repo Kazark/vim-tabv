@@ -18,9 +18,9 @@ this one.
 The main command is `:Tabv`. It takes one argument, which is the "root" or
 "stem" of the set of files you want to open (see below for examples). It
 attempts to guess the type of project you are working on and open the files
-accordingly. Currently C++ and JavaScript are supported, with work on C# support
-in progress. A variant of this command is `:Tvword`, which does the same thing
-but using the word under cursor instead of a command-mode argument.
+accordingly. Currently C#, C++ and JavaScript are supported. A variant of this
+command is `:Tvword`, which does the same thing but using the word under cursor
+instead of a command-mode argument.
 
 For C++ projects, it will bring up the header file, the source file, and the
 unit tests. For JavaScript projects, the command will bring up the script and
@@ -46,6 +46,8 @@ Example for a JavaScript project:
     :Tabv tokens
 
 ![Tabv for JavaScript](http://i.imgur.com/TtEPlbQ.png)
+
+The result for C# is much the same as JavaScript.
 
 The same command is available wrapped/aliased for use in shell environments
 (Bash and PowerShell). For Bash, source the `tabv.sh` file in your `.bashrc`, or
