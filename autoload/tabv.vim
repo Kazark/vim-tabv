@@ -114,9 +114,9 @@ let g:tabv_csharp_unittest_extension="Tests.cs"
 function tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
     let l:projectList = []
     for line in a:linesFromSolution
-        let l:matches = matchlist(l:line, '^Project(.\+) = "\(.\+\)", "\(.\+\.csproj\)"')
+        let l:matches = matchlist(l:line, '^Project(.\+) = ".\+", "\(.\+[/\\]\)\?\(.\+\.csproj\)"')
         if l:matches != []
-            call add(l:projectList, [l:matches[1], l:matches[2]])
+            call add(l:projectList, [l:matches[1], l:matches[1] . l:matches[2]])
         endif
     endfor
     return l:projectList
