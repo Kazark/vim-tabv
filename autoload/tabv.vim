@@ -151,6 +151,16 @@ function tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
     return ""
 endfunction
 
+function tabv#GuessSpecExtFromCsProjects()
+    for projectPair in g:tabv_csproj_list
+        let l:extension = tabv#GuessSpecExtFromCsProjLines(readfile(l:projectPair[1]))
+        if l:extension != ""
+            let g:tabv_csharp_unittest_extension = l:extension
+            break
+        endif
+    endfor
+endfunction
+
 function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
     for line in a:linesFromCsProj
         let l:matches = matchlist(l:line, '<Compile Include="\(.\+\\\)\?\(' . a:filename . '\)" />')
@@ -187,6 +197,7 @@ function tabv#GuessPathsFromSolutionFile()
         return
     endif
     let g:tabv_csproj_list = tabv#ScrapeProjectFilePathsFromLines(readfile(expand('*.sln'))) " Not multiple-solution safe
+    call tabv#GuessSpecExtFromCsProjects()
     let g:tabv_guessed_paths=1
 endfunction
 
