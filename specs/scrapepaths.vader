@@ -5,6 +5,10 @@ Execute (Can find *.csproj paths in a Visual Studio solution file):
   AssertEqual expectedProjectList, projectList
 
 Execute (Given name stem can find path of file in .csproj):
+  let linesFromCsProj = ['    <Reference Include="System.Xml" />', '  </ItemGroup>', '  <ItemGroup>', '    <Compile Include="Cell.cs" />']
+  AssertEqual 'Cell.cs', tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, 'Cell.cs')
+
+Execute (Given name stem can find path of file in subdirectory in .csproj):
   let linesFromCsProj = ['    <Reference Include="System.Xml" />', '  </ItemGroup>', '  <ItemGroup>', '    <Compile Include="Core\Cell.cs" />', '    <Compile Include="Core\Events\GameInitiated.cs" />', '    <Compile Include="Core\Events\GameIsOscillating.cs" />']
   AssertEqual 'Core\Events\GameIsOscillating.cs', tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, "GameIsOscillating.cs")
 

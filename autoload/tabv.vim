@@ -153,9 +153,9 @@ endfunction
 
 function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
     for line in a:linesFromCsProj
-        let l:matches = matchlist(l:line, '<Compile Include="\(.\+\\' . a:filename . '\)" />') " Does not accomodate files not in subdirectory
+        let l:matches = matchlist(l:line, '<Compile Include="\(.\+\\\)\?\(' . a:filename . '\)" />')
         if l:matches != []
-            return l:matches[1]
+            return l:matches[1] . l:matches[2]
         endif
     endfor
     return ''
