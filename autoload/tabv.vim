@@ -76,6 +76,7 @@ function tabv#OpenTabJavaScript(name)
 endfunction
 
 let g:tabv_gruntfile_path='Gruntfile.js'
+let g:tabv_gruntfile_path='gulpfile.js'
 
 let g:tabv_gruntfile_regex='[''"]\(.*\)/\*%s[''"]'
 
@@ -215,6 +216,8 @@ endfunction
 function tabv#GuessLanguage()
     if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
         call tabv#GuessPathsFromGruntfile()
+        return "javascript"
+    if filereadable(g:tabv_gulpfile_path) " Assume this is a JavaScript project
         return "javascript"
     elseif filereadable(expand("*.sln"))
         call tabv#GuessPathsFromSolutionFile()
