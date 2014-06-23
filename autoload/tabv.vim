@@ -213,6 +213,14 @@ function tabv#OpenTabForGuessedLanguage(name)
     endif
 endfunction
 
+function tabv#GuessSpecDirectory()
+    for path in ['specs', 'unittests', 'unittest', 'tests', 'Tests']
+        if isdirectory(path)
+            return path
+        endif
+    endfor
+endfunction
+
 function tabv#GuessLanguage()
     if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
         call tabv#GuessPathsFromGruntfile()
