@@ -109,6 +109,14 @@ function tabv#GuessPathsFromGruntfile()
     close
 endfunction
 
+let g:tabv_go_source_extension=".go"
+let g:tabv_go_unittest_extension="_test.go"
+
+function tabv#OpenTabGo(name)
+    call tabv#TabEdit(a:name . g:tabv_go_source_extension)
+    call tabv#VerticalSplit(a:name . g:tabv_go_unittest_extension)
+endfunction
+
 let g:tabv_csharp_source_extension=".cs"
 let g:tabv_csharp_unittest_extension="Tests.cs"
 
@@ -208,6 +216,8 @@ function tabv#OpenTabForGuessedLanguage(name)
         call tabv#OpenTabJavaScript(a:name)
     elseif l:language == "csharp"
         call tabv#OpenTabCSharp(a:name)
+    elseif l:language == "go"
+        call tabv#OpenTabGo(a:name)
     else
         call tabv#OpenTabCPlusPlus(a:name)
     endif
@@ -230,6 +240,8 @@ function tabv#GuessLanguage()
     elseif filereadable(expand("*.sln"))
         call tabv#GuessPathsFromSolutionFile()
         return "csharp"
+    elseif $GOPATH != '' && match(getcwd(), $GOPATH) == 0
+        return "go"
     elseif &filetype == "javascript"
         return "javascript"
     else
@@ -249,6 +261,9 @@ function tabv#VerticalSplitUnitTests()
         if l:specPath != ""
             call tabv#VerticalSplit(l:specPath)
         endif
+        return
+    elseif l:language == 'go'
+        call tabv#VerticalSplit(l:name . g:tabv_go_unittest_extension)
         return
     else
         let l:unittest_directory=g:tabv_cplusplus_unittest_directory
