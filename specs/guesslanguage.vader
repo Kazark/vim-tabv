@@ -14,8 +14,8 @@ Execute (does not guess Go if GOPATH environment variable is not set):
   let $GOPATH=""
   AssertNotEqual "go", tabv#GuessLanguage()
 
-Execute (guesses Go if current directory child of GOPATH environment variable):
-  let $GOPATH=$HOME
+Execute (guesses Go if current directory is a child of GOPATH directory):
+  let $GOPATH=fnamemodify(getcwd(), ':h')
   AssertEqual "go", tabv#GuessLanguage()
 
 Execute (does not guess Go if current directory is not child of GOPATH environment variable):
