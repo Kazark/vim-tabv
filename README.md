@@ -1,4 +1,4 @@
-# Tabv for Vim
+# Tabv for Vim [![GitHub version](https://badge.fury.io/gh/kazark%2Fvim-tabv.svg)](http://badge.fury.io/gh/kazark%2Fvim-tabv)
 
 Easily open relevant groupings of files in Vim. This plugin is currently
 simplistic and hacky. I am developing it slowly over time. If you start using it
