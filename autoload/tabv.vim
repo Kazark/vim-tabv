@@ -240,7 +240,7 @@ function tabv#GuessLanguage()
     elseif filereadable(expand("*.sln"))
         call tabv#GuessPathsFromSolutionFile()
         return "csharp"
-    elseif $GOPATH != '' && match(getcwd(), escape($GOPATH, ' \')) == 0
+    elseif $GOPATH != '' && match(getcwd(), escape(substitute($GOPATH, '/', '[/\\]', 'g'), ' \')) == 0
         return "go"
     elseif &filetype == "javascript"
         return "javascript"

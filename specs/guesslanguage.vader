@@ -18,6 +18,10 @@ Execute (guesses Go if current directory is a child of GOPATH directory):
   let $GOPATH=fnamemodify(getcwd(), ':h')
   AssertEqual "go", tabv#GuessLanguage()
 
+Execute (guesses Go if current directory on Windows is a child of GOPATH directory with forward slashes):
+  let $GOPATH=substitute(fnamemodify(getcwd(), ':h'), '\', '/', 'g')
+  AssertEqual "go", tabv#GuessLanguage()
+
 Execute (does not guess Go if current directory is not child of GOPATH environment variable):
   let $GOPATH=getcwd() + "/abc/def"
   AssertNotEqual "go", tabv#GuessLanguage()
