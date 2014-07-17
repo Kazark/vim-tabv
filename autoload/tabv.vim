@@ -231,6 +231,18 @@ function tabv#GuessSpecDirectory()
     endfor
 endfunction
 
+function tabv#GopathAsCrossPlatformRegex()
+    return escape(substitute($GOPATH, '/', '[/\\]', 'g'), ' \')
+endfunction
+
+function tabv#BeginsWithGopath(path)
+    return match(a:path, tabv#GopathAsCrossPlatformRegex()) == 0
+endfunction
+
+function tabv#CurrentDirectoryIsChildOfGopath()
+    return $GOPATH != '' && tabv#BeginsWithGopath(getcwd())
+endfunction
+
 function tabv#GuessLanguage()
     if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
         call tabv#GuessPathsFromGruntfile()
@@ -240,7 +252,7 @@ function tabv#GuessLanguage()
     elseif filereadable(expand("*.sln"))
         call tabv#GuessPathsFromSolutionFile()
         return "csharp"
-    elseif $GOPATH != '' && match(getcwd(), escape(substitute($GOPATH, '/', '[/\\]', 'g'), ' \')) == 0
+    elseif tabv#CurrentDirectoryIsChildOfGopath()
         return "go"
     elseif &filetype == "javascript"
         return "javascript"
