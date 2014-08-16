@@ -25,3 +25,8 @@ Execute (guesses Go if current directory on Windows is a child of GOPATH directo
 Execute (does not guess Go if current directory is not child of GOPATH environment variable):
   let $GOPATH=getcwd() + "/abc/def"
   AssertNotEqual "go", tabv#GuessLanguage()
+
+Execute (guesses Python if there is a __pycache__ directory):
+  cd labrats/python
+  AssertEqual "python", tabv#GuessLanguage()
+  cd -

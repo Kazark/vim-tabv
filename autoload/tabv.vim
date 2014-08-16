@@ -254,6 +254,8 @@ function tabv#GuessLanguage()
         return "csharp"
     elseif tabv#CurrentDirectoryIsChildOfGopath()
         return "go"
+    elseif isdirectory('__pycache__')
+        return "python"
     elseif &filetype == "javascript"
         return "javascript"
     else
