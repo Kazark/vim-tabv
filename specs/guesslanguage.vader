@@ -1,3 +1,8 @@
+Before:
+  " Isolate what we are testing in this suite (language guessing, not
+  " path guessing)
+  let g:tabv_guessed_paths=1
+
 Execute (returns "unknown" if it fails to guess the project type when current file does not have filetype set):
   set filetype=""
   AssertEqual "unknown", tabv#GuessLanguage()
@@ -29,4 +34,19 @@ Execute (does not guess Go if current directory is not child of GOPATH environme
 Execute (guesses Python if there is a __pycache__ directory):
   cd labrats/python
   AssertEqual "python", tabv#GuessLanguage()
+  cd -
+
+Execute (guesses C# if there is a *.sln file):
+  cd labrats/cs
+  AssertEqual "csharp", tabv#GuessLanguage()
+  cd -
+
+Execute (guesses JavaScript if there is a Gulpfile):
+  cd labrats/gulp
+  AssertEqual "javascript", tabv#GuessLanguage()
+  cd -
+
+Execute (guesses JavaScript if there is a Gruntfile):
+  cd labrats/grunt
+  AssertEqual "javascript", tabv#GuessLanguage()
   cd -
