@@ -109,6 +109,14 @@ function tabv#GuessPathsFromGruntfile()
     close
 endfunction
 
+let g:tabv_python_source_extension=".py"
+let g:tabv_python_unittest_extension="Tests.py"
+
+function tabv#OpenTabPython(name)
+    call tabv#TabEdit(a:name . g:tabv_python_source_extension)
+    call tabv#VerticalSplit(a:name . g:tabv_python_unittest_extension)
+endfunction
+
 let g:tabv_go_source_extension=".go"
 let g:tabv_go_unittest_extension="_test.go"
 
@@ -218,6 +226,8 @@ function tabv#OpenTabForGuessedLanguage(name)
         call tabv#OpenTabCSharp(a:name)
     elseif l:language == "go"
         call tabv#OpenTabGo(a:name)
+    elseif l:language == "python"
+        call tabv#OpenTabPython(a:name)
     else
         call tabv#OpenTabCPlusPlus(a:name)
     endif
