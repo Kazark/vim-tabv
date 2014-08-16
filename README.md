@@ -18,9 +18,9 @@ this one.
 The main command is `:Tabv`. It takes one argument, which is the "root" or
 "stem" of the set of files you want to open (see below for examples). It
 attempts to guess the type of project you are working on and open the files
-accordingly. Currently C#, C++, JavaScript and Go are supported. A variant of
-this command is `:Tvword`, which does the same thing but using the word under
-cursor instead of a command-mode argument.
+accordingly. Currently C#, C++, Python, JavaScript and Go are supported. A
+variant of this command is `:Tvword`, which does the same thing but using the
+word under cursor instead of a command-mode argument.
 
 For C++ projects, it will bring up the header file, the source file, and the
 unit tests. For JavaScript projects, the command will bring up the script and
