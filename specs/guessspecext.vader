@@ -1,35 +1,35 @@
 Execute (infers that the project is a not a spec project if <50% of the files seem to be specs):
   let linesFromCsProj = ['<Compile Include="EventForTesting.cs" />', '<Compile Include="EventInfrastructure\ChannelTests.cs" />', '<Compile Include="Core\Grid_Specs.cs" />']
-  AssertEqual "", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual "", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (C# spec extension can be xUnit-style, e.g. 'Tests.cs'):
   let linesFromCsProj = ['<Compile Include="EventInfrastructure\ChannelTests.cs" />']
-  AssertEqual "Tests.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual "Tests.cs", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (C# spec extension be BDD-style, e.g. 'Specs.cs'):
   let linesFromCsProj = ['<Compile Include="EventInfrastructure\ChannelSpecs.cs" />']
-  AssertEqual "Specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual "Specs.cs", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (C# spec extension can be all lowercase, e.g. 'tests.cs'):
   let linesFromCsProj = ['<Compile Include="EventInfrastructure\channeltests.cs" />']
-  AssertEqual "tests.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual "tests.cs", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (C# spec extension can start with an underscore, e.g. '_Specs.cs'):
   let linesFromCsProj = ['<Compile Include="EventInfrastructure\Channel_Specs.cs" />']
-  AssertEqual "_Specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual "_Specs.cs", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (C# spec extension can be in the singular, e.g. 'Spec.cs'):
   let linesFromCsProj = ['<Compile Include="EventInfrastructure\ChannelSpec.cs" />']
-  AssertEqual "Spec.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual "Spec.cs", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (C# spec extension can start with a dot, e.g. '.specs.cs'):
   let linesFromCsProj = ['<Compile Include="EventInfrastructure\channel.specs.cs" />']
-  AssertEqual ".specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual ".specs.cs", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (infers the C# spec extension from the dominant match):
   let linesFromCsProj = ['<Compile Include="EventForTests.cs" />', '<Compile Include="Core\Handlers\LivingNeighborsCounter_Specs.cs" />', '<Compile Include="EventInfrastructure\Channel_Specs.cs" />', '<Compile Include="Core\Grid_Specs.cs" />', '<Compile Include="EventHandlerForTests.cs" />']
-  AssertEqual "_Specs.cs", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertEqual "_Specs.cs", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)
 
 Execute (ignores AssemblyInfo.cs files when trying to determine C# spec extension):
   let linesFromCsProj = ['<Compile Include="Properties\AssemblyInfo.cs" />', '<Compile Include="EventInfrastructure\Channel_Specs.cs" />']
-  AssertNotEqual "", tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
+  AssertNotEqual "", tabv#cs#GuessSpecExtFromProjLines(linesFromCsProj)

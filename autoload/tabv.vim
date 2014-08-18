@@ -85,105 +85,12 @@ function tabv#GuessPathsFromGruntfile()
     close
 endfunction
 
-let g:tabv_csharp_source_extension=".cs"
-let g:tabv_csharp_unittest_extension="Tests.cs"
-
-function tabv#ScrapeProjectFilePathsFromLines(linesFromSolution)
-    let l:projectList = []
-    for line in a:linesFromSolution
-        let l:matches = matchlist(l:line, '^Project(.\+) = ".\+", "\(.\+[/\\]\)\?\(.\+\.csproj\)"')
-        if l:matches != []
-            call add(l:projectList, [l:matches[1], l:matches[1] . l:matches[2]])
-        endif
-    endfor
-    return l:projectList
-endfunction
-
-function tabv#GuessSpecExtFromCsProjLines(linesFromCsProj)
-    let l:candidates = {}
-    let l:total = 0
-    for line in a:linesFromCsProj
-        if match(line, '<Compile Include=".\+" />') > -1
-            if match(line, 'AssemblyInfo\.cs') > -1
-                continue
-            endif
-            let l:total += 1
-            let l:matches = matchlist(line, '[._]\?\([sS]pec\|[tT]est\)s\?.cs')
-            if l:matches == []
-                continue
-            endif
-            let l:extension = l:matches[0]
-            if has_key(l:candidates, l:extension)
-                let l:candidates[l:extension] += 1
-            else
-                let l:candidates[l:extension] = 1
-            endif
-        endif
-    endfor
-    for key in keys(l:candidates)
-        if l:candidates[key]*1.0/l:total > 0.5
-            return key
-        endif
-    endfor
-    return ""
-endfunction
-
-function tabv#GuessSpecExtFromCsProjects()
-    for projectPair in g:tabv_csproj_list
-        let l:extension = tabv#GuessSpecExtFromCsProjLines(readfile(l:projectPair[1]))
-        if l:extension != ""
-            let g:tabv_csharp_unittest_extension = l:extension
-            break
-        endif
-    endfor
-endfunction
-
-function tabv#InCsProjLinesFindFilepathOf(linesFromCsProj, filename)
-    for line in a:linesFromCsProj
-        let l:matches = matchlist(l:line, '<Compile Include="\(.\+\\\)\?\(' . a:filename . '\)" />')
-        if l:matches != []
-            return l:matches[1] . l:matches[2]
-        endif
-    endfor
-    return ''
-endfunction
-
-function tabv#LookInCsProjsForFilepathOf(filename)
-    for projectPair in g:tabv_csproj_list
-        let l:filepath = tabv#InCsProjLinesFindFilepathOf(readfile(l:projectPair[1]), a:filename)
-        if l:filepath != ""
-            return l:projectPair[0] . '/' . l:filepath
-        endif
-    endfor
-    return ""
-endfunction
-
-function tabv#OpenTabCSharp(name)
-    let l:sourcePath = tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_source_extension)
-    let l:specPath = tabv#LookInCsProjsForFilepathOf(a:name . g:tabv_csharp_unittest_extension)
-    if l:sourcePath != ""
-        call tabv#TabEdit(l:sourcePath)
-    endif
-    if l:specPath != ""
-        call tabv#VerticalSplit(l:specPath)
-    endif
-endfunction
-
-function tabv#GuessPathsFromSolutionFile()
-    if exists('g:tabv_guessed_paths')
-        return
-    endif
-    let g:tabv_csproj_list = tabv#ScrapeProjectFilePathsFromLines(readfile(expand('*.sln'))) " Not multiple-solution safe
-    call tabv#GuessSpecExtFromCsProjects()
-    let g:tabv_guessed_paths=1
-endfunction
-
 function tabv#OpenTabForGuessedLanguage(name)
     let l:language = tabv#GuessLanguage()
     if l:language == "javascript"
         call tabv#OpenTabJavaScript(a:name)
     elseif l:language == "csharp"
-        call tabv#OpenTabCSharp(a:name)
+        call tabv#cs#OpenTab(a:name)
     elseif l:language == "go"
         call tabv#go#OpenTab(a:name)
     elseif l:language == "python"
@@ -208,7 +115,7 @@ function tabv#GuessLanguage()
     elseif filereadable(g:tabv_gulpfile_path) " Assume this is a JavaScript project
         return "javascript"
     elseif filereadable(expand("*.sln"))
-        call tabv#GuessPathsFromSolutionFile()
+        call tabv#cs#GuessPathsFromSolutionFile()
         return "csharp"
     elseif tabv#go#CurrentDirectoryIsChildOfGopath()
         return "go"
@@ -229,7 +136,7 @@ function tabv#VerticalSplitUnitTests()
         let l:unittest_extension=g:tabv_javascript_unittest_extension
         let l:source_directory=g:tabv_javascript_source_directory
     elseif l:language == 'csharp'
-        let l:specPath = tabv#LookInCsProjsForFilepathOf(l:name . g:tabv_csharp_unittest_extension)
+        let l:specPath = tabv#cs#LookInProjsForFilepathOf(l:name . g:tabv_csharp_unittest_extension)
         if l:specPath != ""
             call tabv#VerticalSplit(l:specPath)
         endif
