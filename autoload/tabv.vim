@@ -117,14 +117,6 @@ function tabv#OpenTabPython(name)
     call tabv#VerticalSplit(a:name . g:tabv_python_unittest_extension)
 endfunction
 
-let g:tabv_go_source_extension=".go"
-let g:tabv_go_unittest_extension="_test.go"
-
-function tabv#OpenTabGo(name)
-    call tabv#TabEdit(a:name . g:tabv_go_source_extension)
-    call tabv#VerticalSplit(a:name . g:tabv_go_unittest_extension)
-endfunction
-
 let g:tabv_csharp_source_extension=".cs"
 let g:tabv_csharp_unittest_extension="Tests.cs"
 
@@ -225,7 +217,7 @@ function tabv#OpenTabForGuessedLanguage(name)
     elseif l:language == "csharp"
         call tabv#OpenTabCSharp(a:name)
     elseif l:language == "go"
-        call tabv#OpenTabGo(a:name)
+        call tabv#go#OpenTab(a:name)
     elseif l:language == "python"
         call tabv#OpenTabPython(a:name)
     else
@@ -241,18 +233,6 @@ function tabv#GuessSpecDirectory()
     endfor
 endfunction
 
-function tabv#GopathAsCrossPlatformRegex()
-    return escape(substitute($GOPATH, '/', '[/\\]', 'g'), ' \')
-endfunction
-
-function tabv#BeginsWithGopath(path)
-    return match(a:path, tabv#GopathAsCrossPlatformRegex()) == 0
-endfunction
-
-function tabv#CurrentDirectoryIsChildOfGopath()
-    return $GOPATH != '' && tabv#BeginsWithGopath(getcwd())
-endfunction
-
 function tabv#GuessLanguage()
     if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
         call tabv#GuessPathsFromGruntfile()
@@ -262,7 +242,7 @@ function tabv#GuessLanguage()
     elseif filereadable(expand("*.sln"))
         call tabv#GuessPathsFromSolutionFile()
         return "csharp"
-    elseif tabv#CurrentDirectoryIsChildOfGopath()
+    elseif tabv#go#CurrentDirectoryIsChildOfGopath()
         return "go"
     elseif isdirectory('__pycache__')
         return "python"
@@ -286,6 +266,7 @@ function tabv#VerticalSplitUnitTests()
             call tabv#VerticalSplit(l:specPath)
         endif
         return
+    " TODO support Python
     elseif l:language == 'go'
         call tabv#VerticalSplit(l:name . g:tabv_go_unittest_extension)
         return
