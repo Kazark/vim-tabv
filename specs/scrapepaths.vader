@@ -22,9 +22,9 @@ Given (Gruntfile fragment):
   },
 
 Execute (can scrape unit test directory):
-  call tabv#ScrapeSpecDirectoryFromOpenGruntfile()
+  call tabv#js#ScrapeSpecDirectoryFromOpenGruntfile()
   AssertEqual 'src/tests/**', g:tabv_javascript_unittest_directory
 
 Execute (can scrape source files directory):
-  call tabv#ScrapeSourceDirectoryFromOpenGruntfile()
+  call tabv#js#ScrapeSourceDirectoryFromOpenGruntfile()
   AssertEqual 'src/modules/**', g:tabv_javascript_source_directory
