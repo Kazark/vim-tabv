@@ -22,3 +22,4 @@ function tabv#go#CurrentDirectoryIsChildOfGopath()
     return $GOPATH != '' && tabv#go#BeginsWithGopath(getcwd())
 endfunction
 
+let g:tabv_go_loaded=1
