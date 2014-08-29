@@ -60,3 +60,14 @@ Will attempt to figure out where the unit tests for the current buffer are and
 open them in a vertically split window:
 
     :Vsunittests
+
+### Installation
+
+I recommend installing with [Pathogen](https://github.com/tpope/vim-pathogen),
+thus (you may need to `mkdir ~/.vim/bundle`):
+
+    cd ~/.vim/bundle
+    git clone https://github.com/Kazark/vim-tabv.git
+
+_Note_: you may have to use `~\vimfiles` instead of `~/.vim` if you are on
+Windows.
