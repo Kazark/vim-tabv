@@ -61,7 +61,7 @@ open them in a vertically split window:
 
     :Vsunittests
 
-### Installation
+## Installation
 
 I recommend installing with [Pathogen](https://github.com/tpope/vim-pathogen),
 thus (you may need to `mkdir ~/.vim/bundle`):
@@ -71,3 +71,13 @@ thus (you may need to `mkdir ~/.vim/bundle`):
 
 _Note_: you may have to use `~\vimfiles` instead of `~/.vim` if you are on
 Windows.
+
+## Developer Notes
+
+To run the specs, you will need [Vader](://github.com/junegunn/vader.vim)
+installed as a Vim plugin. The from within the Tabv repository, do:
+
+    cd specs
+    vim +Vader*
+
+this will run all the specs. For more information, see Vader's documentation.
