@@ -2,17 +2,14 @@
 
 Easily open relevant groupings of files in Vim. This plugin is currently
 simplistic and hacky. I am developing it slowly over time. If you start using it
-please let me know what you need from it by submitting issues. And if you by
-some chance you actually find this useful you can always
-[![endorse](https://api.coderwall.com/kazark/endorsecount.png)](https://coderwall.com/kazark)
-me.
+please let me know what you need from it by submitting issues.
 
 I use it along with [The NERD tree](https://github.com/scrooloose/nerdtree) and
 [CtrlP.Vim](https://github.com/kien/ctrlp.vim) in order to easily call up files
 from within a project and make working in Vim more like working in an IDE. Both
 those plugins are far more mature and powerful than this one is, plus the guys
 who wrote them are way better with VimL than I am. I recommend them both above
-this one.
+this one, but they can be used to complement each other.
 
 ## Open a tab and populate it with related files
 The main command is `:Tabv`. It takes one argument, which is the "root" or
@@ -46,8 +43,6 @@ Example for a JavaScript project:
     :Tabv tokens
 
 ![Tabv for JavaScript](http://i.imgur.com/TtEPlbQ.png)
-
-The result for C# is much the same as JavaScript.
 
 The same command is available wrapped/aliased for use in shell environments
 (Bash and PowerShell). For Bash, source the `tabv.sh` file in your `.bashrc`, or

@@ -1,0 +1,40 @@
+*tabv.txt* Easily open relevant groupings of files in Vim
+
+Author: Kazark (@Kazark on Github, StackExchange)
+License: Public Domain
+
+INTRODUCTION                                    *tabv*
+
+Easily open relevant groupings of files in Vim. This plugin is currently
+simplistic and hacky. I am developing it slowly over time. If you start using
+it please let me know what you need from it by submitting issues on the GitHub
+page.
+
+I use it along with *NERDTree* and *CtrlP* in order to easily call up files
+from within a project and make working in Vim more like working in an IDE.
+Both those plugins are far more mature and powerful than this one is, plus the
+guys who wrote them are way better with VimL than I am. I recommend them both
+above this one, but they can be used to complement each other.
+
+Currently, C#, C++, Python, JavaScript, and Go projects are all (at least
+partially) supported.
+
+COMMANDS                                        *tabv-commands*
+
+                                                *tabv-:Tabv*
+:Tabv {name}            Open a new tab with a group of files that have this name
+                        as their "root" or "stem" (the exact details of this are
+                        dependent on the type of the project). For C++ projects,
+                        this will open the source, header and unit tests unless
+                        {name} ends in <>, in which case it is considered a
+                        "template name" and it does not attempt to open the
+                        source file.
+
+                                                *tabv-:Tvword*
+:Tvword                 Same as |:Tabv|, but use the word under cursor as
+                        {name}.
+
+                                                *tabv-:Vsunittests*
+:Vsunittests            Attempt to open the unit tests that correction to the
+                        currently open production code file.
+

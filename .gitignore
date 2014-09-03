@@ -1,3 +1,5 @@
+# Vim
 Session.vim
 *.swp
 *.swo
+doc/tags
