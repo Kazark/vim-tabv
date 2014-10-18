@@ -64,15 +64,18 @@ function tabv#GuessSpecDirectory()
     endfor
 endfunction
 
-let g:tabv_gruntfile_path='Gruntfile.js'
-let g:tabv_gulpfile_path='gulpfile.js'
+let g:tabv_javascript_gruntfile_path='Gruntfile.js'
+let g:tabv_javascript_gulpfile_path='gulpfile.js'
+let g:tabv_coffeescript_gruntfile_path='Gruntfile.coffee'
 
 function tabv#GuessLanguage()
-    if filereadable(g:tabv_gruntfile_path) " Assume this is a JavaScript project
+    if filereadable(g:tabv_javascript_gruntfile_path) " Assume this is a JavaScript project
         call tabv#js#GuessPathsFromGruntfile()
         return "javascript"
-    elseif filereadable(g:tabv_gulpfile_path) " Assume this is a JavaScript project
+    elseif filereadable(g:tabv_javascript_gulpfile_path) " Assume this is a JavaScript project
         return "javascript"
+    elseif filereadable(g:tabv_coffeescript_gruntfile_path) " Assume this is a CoffeeScript project
+        return "coffeescript"
     elseif filereadable(expand("*.sln"))
         call tabv#cs#GuessPathsFromSolutionFile()
         return "csharp"

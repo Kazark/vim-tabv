@@ -41,12 +41,17 @@ Execute (guesses C# if there is a *.sln file):
   AssertEqual "csharp", tabv#GuessLanguage()
   cd -
 
-Execute (guesses JavaScript if there is a Gulpfile):
+Execute (guesses JavaScript if there is a Gulpfile.js):
   cd labrats/gulp
   AssertEqual "javascript", tabv#GuessLanguage()
   cd -
 
-Execute (guesses JavaScript if there is a Gruntfile):
-  cd labrats/grunt
+Execute (guesses JavaScript if there is a Gruntfile.js):
+  cd labrats/grunt/js
   AssertEqual "javascript", tabv#GuessLanguage()
+  cd -
+
+Execute (guesses JavaScript if there is a Gruntfile.coffee):
+  cd labrats/grunt/coffee
+  AssertEqual "coffeescript", tabv#GuessLanguage()
   cd -
